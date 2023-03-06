@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   pipex.h                                            :+:    :+:            */
+/*   ft_lstnew.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
+/*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/03/03 15:34:15 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/06 20:01:01 by yizhang       ########   odam.nl         */
+/*   Created: 2022/10/31 17:25:23 by yizhang       #+#    #+#                 */
+/*   Updated: 2022/10/31 18:13:46 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-#define PIPEX_H
+#include "libft.h"
+#include <unistd.h>
 
-#include <unistd.h> //dup2,pipe,execve
-#include <fcntl.h>//open,close
-//#include <stdio.h>//fork
-#include "ft_printf/ft_printf.h"
+t_list	*ft_lstnew(void *content)
+{
+	t_list	*node;
 
-#endif
+	node = malloc(sizeof(t_list));
+	if (!node)
+		return (NULL);
+	node->content = (t_list *)content;
+	node->next = NULL;
+	return (node);
+}

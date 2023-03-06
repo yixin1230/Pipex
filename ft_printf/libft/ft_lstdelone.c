@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   pipex.h                                            :+:    :+:            */
+/*   ft_lstdelone.c                                     :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
+/*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/03/03 15:34:15 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/06 20:01:01 by yizhang       ########   odam.nl         */
+/*   Created: 2022/11/01 11:14:09 by yizhang       #+#    #+#                 */
+/*   Updated: 2022/11/01 11:29:19 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-#define PIPEX_H
+#include "libft.h"
 
-#include <unistd.h> //dup2,pipe,execve
-#include <fcntl.h>//open,close
-//#include <stdio.h>//fork
-#include "ft_printf/ft_printf.h"
-
-#endif
+void	ft_lstdelone(t_list *lst, void (*del)(void*))
+{
+	if (!lst || !del)
+		return ;
+	del(lst->content);
+	free(lst);
+}

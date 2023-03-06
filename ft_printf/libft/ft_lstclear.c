@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   pipex.h                                            :+:    :+:            */
+/*   ft_lstclear.c                                      :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
+/*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/03/03 15:34:15 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/06 20:01:01 by yizhang       ########   odam.nl         */
+/*   Created: 2022/11/01 11:30:11 by yizhang       #+#    #+#                 */
+/*   Updated: 2022/11/01 12:53:27 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-#define PIPEX_H
+#include "libft.h"
 
-#include <unistd.h> //dup2,pipe,execve
-#include <fcntl.h>//open,close
-//#include <stdio.h>//fork
-#include "ft_printf/ft_printf.h"
+void	ft_lstclear(t_list **lst, void (*del)(void*))
+{	
+	t_list	*next_node;
 
-#endif
+	while (*lst)
+	{
+		del((*lst)->content);
+		next_node = (*lst)->next;
+		free(*lst);
+		(*lst) = next_node;
+	}
+	*lst = NULL;
+}

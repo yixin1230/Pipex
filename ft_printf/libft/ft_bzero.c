@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   pipex.h                                            :+:    :+:            */
+/*   ft_bzero.c                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
+/*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/03/03 15:34:15 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/06 20:01:01 by yizhang       ########   odam.nl         */
+/*   Created: 2022/11/04 18:29:04 by yizhang       #+#    #+#                 */
+/*   Updated: 2022/11/07 09:09:44 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-#define PIPEX_H
+#include "libft.h"
 
-#include <unistd.h> //dup2,pipe,execve
-#include <fcntl.h>//open,close
-//#include <stdio.h>//fork
-#include "ft_printf/ft_printf.h"
+void	ft_bzero(void *s, size_t n)
+{
+	size_t			i;
+	unsigned char	*str;
 
-#endif
+	i = 0;
+	str = (unsigned char *)s;
+	while (i < n)
+	{
+		str[i] = '\0';
+		i++;
+	}
+}

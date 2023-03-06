@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   pipex.h                                            :+:    :+:            */
+/*   ft_memset.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
+/*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/03/03 15:34:15 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/06 20:01:01 by yizhang       ########   odam.nl         */
+/*   Created: 2022/11/04 18:26:00 by yizhang       #+#    #+#                 */
+/*   Updated: 2022/11/04 18:26:00 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-#define PIPEX_H
+#include "libft.h"
 
-#include <unistd.h> //dup2,pipe,execve
-#include <fcntl.h>//open,close
-//#include <stdio.h>//fork
-#include "ft_printf/ft_printf.h"
+void	*ft_memset(void *str, int c, size_t n)
+{
+	size_t			i;
+	unsigned char	*tmp;
 
-#endif
+	i = 0;
+	tmp = (unsigned char *)str;
+	while (i < n)
+	{
+		tmp[i] = (unsigned char)c;
+		i++;
+	}
+	return (str = tmp);
+}

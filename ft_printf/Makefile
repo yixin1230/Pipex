@@ -3,37 +3,36 @@
 #                                                         ::::::::             #
 #    Makefile                                           :+:    :+:             #
 #                                                      +:+                     #
-#    By: yizhang <zhaozicen951230@gmail.com>          +#+                      #
+#    By: yizhang <yizhang@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
-#    Created: 2023/03/03 15:44:45 by yizhang       #+#    #+#                  #
-#    Updated: 2023/03/06 20:05:05 by yizhang       ########   odam.nl          #
+#    Created: 2022/12/01 08:30:47 by yizhang       #+#    #+#                  #
+#    Updated: 2022/12/08 14:58:47 by yizhang       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = pipex
+NAME = libftprintf.a
 CC = gcc
-FLAG = -Wall -Werror -Wextra
-FT_PRINTF = ft_printf/libftprintf.a
-SRC = main.c 
-OBJ = ${SRC:.c=.o}
+FLAGS = -Wall -Werror -Wextra
+LIBFT = libft/libft.a
+SRCS = ft_printf.c ft_utils.c
+OBJS = ${SRCS:.c=.o}
 
 all: ${NAME}
 
-${NAME}: ${OBJ}
-		${CC} ${FLAG} ${OBJ} ${FT_PRINTF} -o ${NAME}
+${NAME}: ${OBJS} 
+	make -C libft
+	cp ${LIBFT} ${NAME}
+	ar rcs ${NAME} ${OBJS}
 
-${OBJ}: ${SRC}
-		${CC} ${FLAG} -c ${SRC}
-
-${FT_PRINTF}:
-	make -C ft_printf
+${OBJS}: ${SRCS}
+	${CC} ${FLAGS} -c ${SRCS}
 
 clean:
-	rm -rf ${OBJ}
-	make clean -C ft_printf
+	rm -rf ${OBJS} 
+	make clean -C libft
 
-fclean:clean
+fclean: clean
 	rm -rf ${NAME}
-	make fclean -C ft_printf
+	make fclean -C libft
 
 re:fclean all
