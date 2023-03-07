@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:34:15 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/07 11:13:57 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/07 13:31:59 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,9 @@
 #include <stdio.h>//fork
 #include <sys/wait.h>
 #include "ft_printf/ft_printf.h"
+
+void	run(char *argv, char **envp);
+char	*find_path(char **cmd, char **envp);
+void	print_error(void);
 
 #endif

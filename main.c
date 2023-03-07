@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:37:21 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/07 12:14:45 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/07 13:48:28 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,36 +20,30 @@ void	child_process(int *fd, char **argv, char **envp)
 {
 	int	infile;
 
-	close(fd[0]);
-	infile = open(argv[1], O_RDONLY);
+	//close(fd[0]);
+	infile = open(argv[1], O_RDONLY, 0777);
 	if (infile == -1)
-	{
-		ft_printf("error\n");
-		return ;
-	}
+		print_error();
 	dup2(infile, 0);
 	dup2(fd[1], 1);
-	run(argv,envp);
-	close(fd[1]);
 	
+	close(fd[1]);
+	run(argv[2], envp);
 }
 
 void	parent_process(int *fd, char **argv, char **envp)
 {
 	int	outfile;
 
-	close(fd[1]);
-	outfile = open(argv[4], O_RDONLY | O_CREAT);
+	//close(fd[1]);
+	outfile = open(argv[4], O_RDONLY | O_CREAT, 0777);
 	if (outfile == -1)
-	{
-		ft_printf("error\n");
-		return ;
-	}
+		print_error();
 	dup2(fd[0], 0);
 	dup2(outfile, 1);
-	run(argv,envp);
-	execve("/bin/cat", str, envp);
-	close(fd[0]);
+	
+	close(fd[1]);
+	run(argv[3], envp);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -57,14 +51,13 @@ int	main(int argc, char **argv, char **envp)
 	pid_t	id;
 	int		fd[2];
 
-	if (argc != 5 || pipe(fd) == -1)
-	{
-		ft_printf("error\n");
-		return (1);
-	}
+	if (argc != 5 )
+		print_error();
+	if (pipe(fd) == -1)
+		print_error();
 	id = fork();
 	if (id == -1)
-		return (1);
+		print_error();
 	if (id == 0)
 		child_process(fd, argv, envp);
 	waitpid(id, NULL, 0);
