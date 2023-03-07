@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/07 16:27:23 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/07 17:25:49 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ char	*find_path(char *cmd, char **envp)
 	while (ft_strnstr(envp[i], "PATH", 4) == NULL)
 		i++;
 	envp_paths = ft_split(envp[i] + 5, ':');
-	i = 0;
-	while (envp_paths[i])
+	i = -1;
+	while (envp_paths[++i])
 	{
 		path_undone = ft_strjoin(envp_paths[i], "/");
 		path = ft_strjoin(path_undone, cmd);
@@ -42,18 +42,11 @@ char	*find_path(char *cmd, char **envp)
 		if (access(path, F_OK) == 0)
 			return (path);
 		free(path);
-		i++;
 	}
-	i = 0;
-	if (envp_paths)
-	{
-		while (envp_paths[i])
-		{
-			free(envp_paths[i]);
-			i++;
-		}
-		free(envp_paths);
-	}
+	i = -1;
+	while (envp_paths[++i])
+		free(envp_paths[i]);
+	free(envp_paths);
 	return (NULL);
 }
 
@@ -62,8 +55,8 @@ void	run(char *argv, char **envp)
 	char	**cmd;
 	char	*path;
 	int		i;
-	i = 0;
 
+	i = 0;
 	cmd = ft_split(argv, ' ');
 	path = find_path(cmd[0], envp);
 	if (!path)
@@ -72,7 +65,7 @@ void	run(char *argv, char **envp)
 		{
 			free(cmd[i]);
 			i++;
-			}
+		}
 		free(cmd);
 		print_error();
 	}

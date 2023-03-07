@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:37:21 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/07 16:51:13 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/07 17:29:26 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ void	child_process(int *fd, char **argv, char **envp)
 void	parent_process(int *fd, char **argv, char **envp)
 {
 	int	outfile;
-	
+
 	close(fd[1]);
-	outfile = open(argv[4], O_WRONLY | O_CREAT| O_TRUNC, 0777);
+	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (outfile == -1)
-		print_error(); 
+		print_error();
 	dup2(fd[0], 0);
 	dup2(outfile, 1);
 	close(fd[1]);
@@ -45,7 +45,7 @@ int	main(int argc, char **argv, char **envp)
 	pid_t	id;
 	int		fd[2];
 
-	if (argc != 5 )
+	if (argc != 5)
 		print_error();
 	pipe(fd);
 	id = fork();
@@ -55,8 +55,5 @@ int	main(int argc, char **argv, char **envp)
 		child_process(fd, argv, envp);
 	waitpid(id, NULL, 0);
 	parent_process(fd, argv, envp);
-	
 	return (0);
 }
-
-
