@@ -1,0 +1,14 @@
+total 96
+-rw-r--r--   1 yizhang  piscine   1695 Mar  7 16:51 main.c
+-rwxr-xr-x   1 yizhang  piscine     25 Mar  7 16:51 file
+drwxr-xr-x  13 yizhang  piscine    442 Mar  7 16:51 .
+-rwxr-xr-x   1 yizhang  piscine  14124 Mar  7 16:51 pipex
+-rw-r--r--   1 yizhang  piscine   1257 Mar  7 16:36 pipex.h
+-rw-r--r--   1 yizhang  piscine   1844 Mar  7 16:34 find_path.o
+drwxr-xr-x  11 yizhang  piscine    374 Mar  7 16:34 ft_printf
+-rw-r--r--   1 yizhang  piscine   2468 Mar  7 16:34 utils.o
+-rw-r--r--   1 yizhang  piscine   2639 Mar  7 16:30 utils.c
+-rw-r--r--   1 yizhang  piscine   1348 Mar  7 16:27 Makefile
+-rw-r--r--   1 yizhang  piscine   1923 Mar  7 16:27 find_path.c
+drwxr-xr-x  12 yizhang  piscine    408 Mar  7 16:23 ..
+drwxr-xr-x  13 yizhang  piscine    442 Mar  7 13:58 .git
