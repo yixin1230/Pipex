@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   pipex.h                                            :+:    :+:            */
+/*   find_path.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
+/*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/03/03 15:34:15 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/07 11:13:57 by yizhang       ########   odam.nl         */
+/*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
+/*   Updated: 2023/03/07 12:17:01 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-#define PIPEX_H
+#include "pipex.h"
 
-#include <unistd.h> //dup2,pipe,execve
-#include <fcntl.h>//open,close
-#include <stdio.h>//fork
-#include <sys/wait.h>
-#include "ft_printf/ft_printf.h"
+find_path(char **argv, char **envp)
+{
+	
+}
 
-#endif
+run()
+{
+	path = find_path(char **argv, char **envp)
+	execve(path, str, envp);
+}
