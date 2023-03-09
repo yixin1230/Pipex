@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/09 14:44:08 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/09 15:48:51 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,15 @@ void	run(char *argv, char **envp)
 		path = find_path(cmd[0], envp);
 	if (!path)
 	{
+		ft_putstr_fd("command not found: ", 2);
+		ft_putstr_fd(cmd[0], 2);
 		while (cmd[i])
 		{
 			free(cmd[i]);
 			i++;
 		}
 		free(cmd);
-		print_error();
+		exit(0);
 	}
 	if (execve(path, cmd, envp) == -1)
 		print_error();
