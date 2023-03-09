@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/07 17:25:49 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/09 14:09:37 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	run(char *argv, char **envp)
 		free(cmd);
 		print_error();
 	}
+	//if (execve(path, cmd, envp) == -1)
 	if (execve(path, cmd, envp) == -1)
 		print_error();
 }

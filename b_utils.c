@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 12:30:34 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/09 13:10:26 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/09 13:57:04 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ char	*get_next_line(void)
 			str = ft_strdup(buff);
 		else
 			str = ft_strjoin(str, buff);
-		if (ft_strchr())
+		if (ft_strrchr(str, '\n') != NULL)
 	}
 }
