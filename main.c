@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:37:21 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/09 17:13:53 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/09 17:34:37 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	child_process(int *fd, char **argv, char **envp)
 	int	infile;
 
 	close(fd[0]);
-	infile = open(argv[1], O_RDONLY, 0777);
+	infile = open(argv[1], O_RDONLY);
 	if (infile == -1)
 		print_error(argv[1], 1);
 	dup2(fd[1], 1);

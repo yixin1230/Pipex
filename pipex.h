@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:34:15 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/09 16:59:51 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/09 17:57:01 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,8 @@ char	*find_path(char *cmd, char **envp);
 void	print_error(char *str, int i);
 void	child_process(int *fd, char **argv, char **envp);
 void	parent_process(int *fd, char **argv, char **envp);
+
+char	*get_next_line(void);
+void	here_doc(char *limiter);
 
 #endif

@@ -6,11 +6,13 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 12:30:34 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/09 13:57:04 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/09 18:16:19 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+char	*get_next_line(void);
 
 char	*get_next_line(void)
 {
@@ -25,9 +27,11 @@ char	*get_next_line(void)
 		if (i < 0)
 			return (NULL);
 		if (!str)
-			str = ft_strdup(buff);
+			str = ft_strdup(&buff);
 		else
-			str = ft_strjoin(str, buff);
+			str = ft_strjoin(str, &buff);
 		if (ft_strrchr(str, '\n') != NULL)
+			return (str);
 	}
+	return (str);
 }
