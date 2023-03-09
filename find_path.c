@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/07 17:25:49 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/09 14:39:36 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,20 @@ void	run(char *argv, char **envp)
 {
 	char	**cmd;
 	char	*path;
+	char	*after_bin;
 	int		i;
 
 	i = 0;
-	cmd = ft_split(argv, ' ');
-	path = find_path(cmd[0], envp);
+
+	after_bin = ft_strrchr(argv, '/');
+	if (after_bin == NULL)
+		cmd = ft_split(argv, ' ');
+	else
+		cmd = ft_split(after_bin, ' ');
+	if (access(argv, F_OK) == 0)
+		path = argv;
+	else
+		path = find_path(cmd[0], envp);
 	if (!path)
 	{
 		while (cmd[i])
