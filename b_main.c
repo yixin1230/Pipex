@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/09 13:15:02 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/09 14:18:11 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	here_doc(char *limiter, )
 			write(fd[1], str, ft_strlen(str));
 			tmp = str;
 			str = get_next_line();
+			if (ft_str())
 		}
 	}
 	dup2(fd[1], 1);

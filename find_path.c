@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/09 14:09:37 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/09 14:21:30 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ void	run(char *argv, char **envp)
 
 	i = 0;
 	cmd = ft_split(argv, ' ');
-	path = find_path(cmd[0], envp);
+	if (access(argv, F_OK) == 0)
+		path = argv;
+	else
+		path = find_path(cmd[0], envp);
 	if (!path)
 	{
 		while (cmd[i])
@@ -69,7 +72,6 @@ void	run(char *argv, char **envp)
 		free(cmd);
 		print_error();
 	}
-	//if (execve(path, cmd, envp) == -1)
 	if (execve(path, cmd, envp) == -1)
 		print_error();
 }
