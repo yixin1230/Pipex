@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/09 15:48:51 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/09 17:06:44 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,19 @@
 
 void	run(char *argv, char **envp);
 char	*find_path(char *cmd, char **envp);
-void	print_error(void);
+void	print_error(char *str, int i);
 
-void	print_error(void)
+void	print_error(char *str, int i)
 {
-	perror("Error");
+	ft_putstr_fd(strerror(errno), 2);
+	if (i)
+	{
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd("\n", 2);
+	}
 	exit(1);
+
 }
 
 char	*find_path(char *cmd, char **envp)
@@ -81,5 +88,5 @@ void	run(char *argv, char **envp)
 		exit(0);
 	}
 	if (execve(path, cmd, envp) == -1)
-		print_error();
+		print_error("0", 0);
 }
