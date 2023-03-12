@@ -6,15 +6,12 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/12 18:53:21 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/12 20:31:21 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-//loop thoufgh child process
-//child process : create a fork and pipe, put the output inside a pipe and then close with 
-//the run function. The main process will change his stdin for the pipe file descriptor.
 void	here_doc(char *limiter);
 
 void	here_doc(char *limiter)
@@ -32,27 +29,26 @@ void	here_doc(char *limiter)
 	if (id == 0)
 	{
 		close(fd[0]);
-		str = get_next_line(0);
-		ft_printf("%s",str);
-		while (str)
+		while (1)
 		{
-			if (ft_strncmp(str, limiter, ft_strlen(limiter)) == 0)
+			str = get_next_line(0);
+			if (ft_strncmp(str, limiter, ft_strlen(limiter)) == 0
+				&& ft_strlen(limiter) == (ft_strlen(str) - 1))
 			{
 				free(str);
-				close(fd[1]);
+				//close(fd[1]);
 				exit(0);
 			}
 			write(fd[1], str, ft_strlen(str));
 			tmp = str;
-			str = get_next_line(0);
 			free(tmp);
 		}
 	}
 	else
 	{
+		waitpid(id, NULL, 0);
 		close(fd[1]);
 		dup2(fd[0], 0);
-		waitpid(id, NULL, 0);
 	}
 }
 
@@ -87,6 +83,6 @@ int	main(int argc, char **argv, char **envp)
 		i++;
 	}
 	dup2(outfile, 1);
-	run(argv[argc - 2],envp);
+	run(argv[argc - 2], envp);
 	close(outfile);
 }

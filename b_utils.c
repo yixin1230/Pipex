@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 12:30:34 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/12 18:10:52 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/12 20:31:33 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ char	*get_next_line(int fd)
 		i = read(fd, &buff, 1);
 		if (i < 0)
 			return (NULL);
-		if (buff == '\n')
-			break ;
 		if (i > 0)
 			str[j] = buff;
+		if (i == 0 || str[j] == '\n')
+			break ;
 		j++;
 	}
-	str[j] = '\0';
-	return (ft_strdup(str));
+	str[j++] = '\n';
+	str[j++] = '\0';
+	return (str);
 }
