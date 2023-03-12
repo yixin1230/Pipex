@@ -1,40 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   b_utils.c                                          :+:    :+:            */
+/*   b_child.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/03/09 12:30:34 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/12 18:10:52 by yizhang       ########   odam.nl         */
+/*   Created: 2023/03/12 16:23:17 by yizhang       #+#    #+#                 */
+/*   Updated: 2023/03/12 17:53:26 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*get_next_line(int fd);
-
-char	*get_next_line(int fd)
+void	b_child_process(char *argv, char **envp)
 {
-	int		i;
-	int		j;
-	char	buff;
-	char	*str;
+	int		fd[2];
+	pid_t	id;
 
-	i = 8;
-	j = 0;
-	str = malloc(7000);
-	while (i)
+	if (pipe(fd) == -1)
+		print_error("0", 0);
+	id = fork();
+	if (id == -1)
+		print_error("0", 0);
+	if (id == 0)
 	{
-		i = read(fd, &buff, 1);
-		if (i < 0)
-			return (NULL);
-		if (buff == '\n')
-			break ;
-		if (i > 0)
-			str[j] = buff;
-		j++;
+		close(fd[0]);
+		dup2(fd[1], 1);
+		run(argv, envp);
+		close(fd[1]);
 	}
-	str[j] = '\0';
-	return (ft_strdup(str));
+	else
+	{
+		waitpid(id, NULL, 0);
+		close(fd[1]);
+		dup2(fd[0], 0);
+		close(fd[0]);
+	}
 }

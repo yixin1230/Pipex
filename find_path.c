@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/09 17:06:44 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/12 18:40:45 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	print_error(char *str, int i)
 		ft_putstr_fd("\n", 2);
 	}
 	exit(1);
-
 }
 
 char	*find_path(char *cmd, char **envp)
@@ -61,31 +60,27 @@ void	run(char *argv, char **envp)
 {
 	char	**cmd;
 	char	*path;
-	char	*after_bin;
 	int		i;
 
 	i = 0;
-
-	after_bin = ft_strrchr(argv, '/');
-	if (after_bin == NULL)
-		cmd = ft_split(argv, ' ');
-	else
-		cmd = ft_split(after_bin, ' ');
+	cmd = ft_split(argv, ' ');
 	if (access(argv, F_OK) == 0)
 		path = argv;
 	else
 		path = find_path(cmd[0], envp);
 	if (!path)
 	{
-		ft_putstr_fd("command not found: ", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(cmd[0], 2);
+		ft_putstr_fd("\n", 2);
 		while (cmd[i])
 		{
 			free(cmd[i]);
 			i++;
 		}
 		free(cmd);
-		exit(0);
+		exit(1);
 	}
 	if (execve(path, cmd, envp) == -1)
 		print_error("0", 0);

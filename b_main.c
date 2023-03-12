@@ -6,24 +6,16 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/09 17:57:17 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/12 18:07:43 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-//find here_doc than add here_doc function
-
-//here_doc : make a child process that will read from the stdin with get_next_line
-//until it find the limiter
-// if find limiter exit(), if not , continuing write thing to wirte end[1]
-//the main process will change his stdin for the pipe file descriptor.
-
 //loop thoufgh child process
 //child process : create a fork and pipe, put the output inside a pipe and then close with 
 //the run function. The main process will change his stdin for the pipe file descriptor.
 void	here_doc(char *limiter);
-
 
 void	here_doc(char *limiter)
 {
@@ -33,26 +25,27 @@ void	here_doc(char *limiter)
 	pid_t	id;
 
 	if (pipe(fd) == -1)
-		print_error("0",0);
+		print_error("0", 0);
 	id = fork();
 	if (id < 0)
-		print_error("0",0);
-	dup2(fd[1], 1);
+		print_error("0", 0);
 	if (id == 0)
 	{
 		close(fd[0]);
-		str = get_next_line();
+		str = get_next_line(0);
+		ft_printf("%s",str);
 		while (str)
 		{
 			if (ft_strncmp(str, limiter, ft_strlen(limiter)) == 0)
 			{
 				free(str);
 				close(fd[1]);
-				exit(0);
+				return ;
 			}
+			ft_printf("%s",str);
 			write(fd[1], str, ft_strlen(str));
 			tmp = str;
-			str = get_next_line();
+			str = get_next_line(0);
 			free(tmp);
 		}
 	}
@@ -88,10 +81,12 @@ int	main(int argc, char **argv, char **envp)
 		infile = open(argv[1], O_RDONLY, 0777);
 		outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	}
-/* 	while (i < argc - 2)
+	while (i < argc - 2)
 	{
-		b_child_process();
+		b_child_process(argv[i], envp);
 		i++;
-	} */
-
+	}
+	dup2(outfile, 1);
+	run(argv[argc - 2],envp);
+	close(outfile);
 }
