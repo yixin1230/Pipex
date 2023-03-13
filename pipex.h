@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:34:15 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/12 17:47:37 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/13 09:02:37 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <string.h>
 # include <errno.h>
 # include <sys/wait.h>
-# include "../ft_printf/ft_printf.h"
+# include "ft_printf/ft_printf.h"
 
 void	run(char *argv, char **envp);
 char	*find_path(char *cmd, char **envp);

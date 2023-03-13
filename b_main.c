@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/12 20:31:21 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/13 09:41:11 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,10 @@ void	here_doc(char *limiter)
 	}
 	else
 	{
-		waitpid(id, NULL, 0);
 		close(fd[1]);
+		waitpid(id, NULL, 0);
 		dup2(fd[0], 0);
+		//close(fd[0]);
 	}
 }
 
@@ -57,9 +58,7 @@ int	main(int argc, char **argv, char **envp)
 	int	infile;
 	int	outfile;
 	int	i;
-	char	**tmp;
 
-	tmp = envp;
 	if (argc < 5)
 	{
 		ft_putstr_fd("Error: Bad arguments\n", 2);
@@ -76,6 +75,7 @@ int	main(int argc, char **argv, char **envp)
 		i = 2;
 		infile = open(argv[1], O_RDONLY, 0777);
 		outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		dup2(infile, 0);
 	}
 	while (i < argc - 2)
 	{

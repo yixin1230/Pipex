@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/12 16:23:17 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/12 20:27:41 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/13 09:31:28 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	b_child_process(char *argv, char **envp)
 	}
 	else
 	{
+		waitpid(id, NULL, 0);
 		close(fd[1]);
 		dup2(fd[0], 0);
-		waitpid(id, NULL, 0);
 		close(fd[0]);
 	}
 }

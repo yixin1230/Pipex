@@ -6,7 +6,7 @@
 #    By: yizhang <yizhang@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/11/04 18:24:11 by yizhang       #+#    #+#                  #
-#    Updated: 2023/03/12 15:13:48 by yizhang       ########   odam.nl          #
+#    Updated: 2023/03/13 09:36:10 by yizhang       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,20 +77,20 @@ endif
 
 all: $(NAME)($(OBJ))
 
-$(NAME): $(OBJ)
-	@$(ARCHIVE) $(OBJ) -o $(NAME)
-
-$(OBJ): $(SRC)
-	@$(COMPILE) -c $(SRC)
-
 bonus:
-	@$(MAKE) WITH_BONUS=1
+	$(MAKE) WITH_BONUS=1
+
+%.o: %.c $(HEADER)
+	$(COMPILE) -c $< -o $@ 
+
+$(NAME): $(OBJ)
+	$(ARCHIVE) $(NAME) $<
 
 clean:
-	@$(RM) $(OBJ) $(OBJB)
+	$(RM) $(OBJ) $(OBJB)
 
 fclean: clean
-	@$(RM) $(NAME)
+	$(RM) $(NAME)
 
 re: fclean all
 
