@@ -6,7 +6,7 @@
 #    By: yizhang <zhaozicen951230@gmail.com>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/03/03 15:44:45 by yizhang       #+#    #+#                  #
-#    Updated: 2023/03/12 17:47:50 by yizhang       ########   odam.nl          #
+#    Updated: 2023/03/13 13:09:54 by yizhang       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC = gcc
 FLAG = -Wall -Werror -Wextra
 FT_PRINTF = ft_printf/libftprintf.a
 SRC = find_path.c main.c
-B_SRC = find_path.c b_utils.c b_main.c b_child.c
+B_SRC = find_path.c b_main.c b_child.c b_utils.c
 OBJ = ${SRC:.c=.o}
 B_OBJ = ${B_SRC:.c=.o}
 

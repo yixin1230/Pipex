@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 12:30:34 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/12 20:31:33 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/13 13:13:24 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ char	*get_next_line(int fd)
 
 	i = 8;
 	j = 0;
-	str = malloc(7000);
+	str = malloc(6000);
 	while (i)
 	{
 		i = read(fd, &buff, 1);
 		if (i < 0)
-			return (NULL);
+			return (free(str), NULL);
 		if (i > 0)
 			str[j] = buff;
 		if (i == 0 || str[j] == '\n')

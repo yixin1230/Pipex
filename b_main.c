@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/13 09:41:11 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/13 13:36:50 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,16 @@ void	here_doc(char *limiter);
 void	here_doc(char *limiter)
 {
 	char	*str;
-	char	*tmp;
 	int		fd[2];
 	pid_t	id;
 
+	str = NULL;
 	if (pipe(fd) == -1)
 		print_error("0", 0);
 	id = fork();
 	if (id < 0)
 		print_error("0", 0);
+	ft_printf("inside here_doc: %i\n",getpid());
 	if (id == 0)
 	{
 		close(fd[0]);
@@ -36,21 +37,25 @@ void	here_doc(char *limiter)
 				&& ft_strlen(limiter) == (ft_strlen(str) - 1))
 			{
 				free(str);
-				//close(fd[1]);
+				close(fd[1]);
 				exit(0);
 			}
 			write(fd[1], str, ft_strlen(str));
-			tmp = str;
-			free(tmp);
+			free(str);
 		}
 	}
 	else
 	{
-		close(fd[1]);
 		waitpid(id, NULL, 0);
+		close(fd[1]);
 		dup2(fd[0], 0);
-		//close(fd[0]);
+		close(fd[0]);
+		exit(0);
 	}
+}
+static void leaks(void)
+{
+	system("leaks -q pipex");
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -59,6 +64,7 @@ int	main(int argc, char **argv, char **envp)
 	int	outfile;
 	int	i;
 
+	atexit(leaks);
 	if (argc < 5)
 	{
 		ft_putstr_fd("Error: Bad arguments\n", 2);
@@ -85,4 +91,5 @@ int	main(int argc, char **argv, char **envp)
 	dup2(outfile, 1);
 	run(argv[argc - 2], envp);
 	close(outfile);
+	exit(0);
 }

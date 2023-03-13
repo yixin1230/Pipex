@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/12 18:40:45 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/13 12:23:46 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,13 @@ char	*find_path(char *cmd, char **envp)
 		path = ft_strjoin(path_undone, cmd);
 		free(path_undone);
 		if (access(path, F_OK) == 0)
+		{
+			i = -1;
+			while (envp_paths[++i])
+				free(envp_paths[i]);
+			free(envp_paths);
 			return (path);
+		}
 		free(path);
 	}
 	i = -1;
@@ -82,6 +88,27 @@ void	run(char *argv, char **envp)
 		free(cmd);
 		exit(1);
 	}
+	i =0;
 	if (execve(path, cmd, envp) == -1)
+	{
+		if (path)
+			free(path);
+		while (cmd[i])
+		{
+			free(cmd[i]);
+			i++;
+		}
 		print_error("0", 0);
+	}
+	i=0;
+	if (path)
+		free(path);
+	while (cmd[i])
+	{
+		free(cmd[i]);
+		i++;
+	}
+	exit (0);
 }
+
+//void	free_anything()
