@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:37:21 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/16 10:13:23 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/16 10:50:29 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ int	main(int argc, char **argv, char **envp)
 	int		fd[2];
 
 	if (argc != 5)
-	{
-		ft_putstr_fd("Error: Bad arguments\n", 2);
-		exit(1);
-	}
+		print_error("0", 3);
 	pipe(fd);
 	id = fork();
 	if (id == -1)
