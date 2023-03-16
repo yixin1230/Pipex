@@ -1,9 +1,0 @@
-#    By: yizhang <zhaozicen951230@gmail.com>          +#+                      #
-SRC = find_path.c main.c
-B_SRC = find_path.c b_main.c b_child.c b_utils.c
-clean:
-	@make clean -C ft_printf
-fclean:clean
-	@make fclean -C ft_printf
-re:fclean all
-.PHONY: all clean fclean re bonus

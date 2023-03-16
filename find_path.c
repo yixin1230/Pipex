@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/16 08:50:39 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/16 09:05:09 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ void	free_2dstr(char **str);
 
 void	print_error(char *str, int i)
 {
+	if (i == 3)
+	{
+		ft_putstr_fd("error: bad arguments\n", 2);
+		exit(1);
+	}
 	ft_putstr_fd(strerror(errno), 2);
 	if (i)
 	{
