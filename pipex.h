@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:34:15 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/13 13:13:06 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/16 08:50:17 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ void	parent_process(int *fd, char **argv, char **envp);
 char	*get_next_line(int fd);
 void	here_doc(char *limiter);
 void	b_child_process(char *argv, char **envp);
+void	free_2dstr(char **str);
 
 #endif

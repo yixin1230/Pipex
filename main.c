@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:37:21 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/09 17:34:37 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/16 08:50:48 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(int argc, char **argv, char **envp)
 	pipe(fd);
 	id = fork();
 	if (id == -1)
-		print_error("0",0);
+		print_error("0", 0);
 	if (id == 0)
 		child_process(fd, argv, envp);
 	waitpid(id, NULL, 0);

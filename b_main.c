@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/13 13:36:50 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/13 16:37:20 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	here_doc(char *limiter)
 	id = fork();
 	if (id < 0)
 		print_error("0", 0);
-	ft_printf("inside here_doc: %i\n",getpid());
 	if (id == 0)
 	{
 		close(fd[0]);
@@ -53,10 +52,6 @@ void	here_doc(char *limiter)
 		exit(0);
 	}
 }
-static void leaks(void)
-{
-	system("leaks -q pipex");
-}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -64,7 +59,6 @@ int	main(int argc, char **argv, char **envp)
 	int	outfile;
 	int	i;
 
-	atexit(leaks);
 	if (argc < 5)
 	{
 		ft_putstr_fd("Error: Bad arguments\n", 2);

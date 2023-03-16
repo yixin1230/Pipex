@@ -1,10 +1,6 @@
 #    By: yizhang <zhaozicen951230@gmail.com>          +#+                      #
-CC = gcc
 SRC = find_path.c main.c
 B_SRC = find_path.c b_main.c b_child.c b_utils.c
-OBJ = ${SRC:.c=.o}
-B_OBJ = ${B_SRC:.c=.o}
-		@${CC} ${FLAG} -c ${SRC}
 clean:
 	@make clean -C ft_printf
 fclean:clean
