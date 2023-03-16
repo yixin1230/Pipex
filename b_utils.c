@@ -1,34 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strnstr.c                                       :+:    :+:            */
+/*   b_utils.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/05 18:21:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/13 08:40:56 by yizhang       ########   odam.nl         */
+/*   Created: 2023/03/09 12:30:34 by yizhang       #+#    #+#                 */
+/*   Updated: 2023/03/13 13:13:24 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, int len)
+char	*get_next_line(int fd);
+
+char	*get_next_line(int fd)
 {
-	char	*hay;
-	char	*n;
+	int		i;
+	int		j;
+	char	buff;
+	char	*str;
 
-	hay = (char *)haystack;
-	n = (char *)needle;
-	if (*n == 0)
-		return (hay);
-	while (*hay && len)
+	i = 8;
+	j = 0;
+	str = malloc(6000);
+	while (i)
 	{
-		if (ft_strlen(needle) > len)
-			return (NULL);
-		if (ft_strncmp(hay, n, ft_strlen(needle)) == 0)
-			return (hay);
-		hay++;
-		len--;
+		i = read(fd, &buff, 1);
+		if (i < 0)
+			return (free(str), NULL);
+		if (i > 0)
+			str[j] = buff;
+		if (i == 0 || str[j] == '\n')
+			break ;
+		j++;
 	}
-	return (NULL);
+	str[j++] = '\n';
+	str[j++] = '\0';
+	return (str);
 }

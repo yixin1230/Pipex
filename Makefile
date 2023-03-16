@@ -6,7 +6,7 @@
 #    By: yizhang <zhaozicen951230@gmail.com>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/03/03 15:44:45 by yizhang       #+#    #+#                  #
-#    Updated: 2023/03/09 14:12:23 by yizhang       ########   odam.nl          #
+#    Updated: 2023/03/13 13:09:54 by yizhang       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,21 +15,22 @@ B_NAME = pipex
 CC = gcc
 FLAG = -Wall -Werror -Wextra
 FT_PRINTF = ft_printf/libftprintf.a
-SRC = find_path.c
-MAIN = main.c 
-#B_SRC = 
-#B_MAIN = b_main.c
+SRC = find_path.c main.c
+B_SRC = find_path.c b_main.c b_child.c b_utils.c
 OBJ = ${SRC:.c=.o}
+B_OBJ = ${B_SRC:.c=.o}
+
+ifdef BONUS
+SRC = $(B_SRC)
+endif
 
 all: ${NAME}
 
-#bonus: ${B_NAME}
+bonus:
+	@${MAKE} BONUS=1
 
-${NAME}: ${MAIN} ${FT_PRINTF} ${OBJ}
-		@${CC} ${FLAG} ${FT_PRINTF} ${OBJ} ${MAIN} -o ${NAME}
-
-#${B_NAME}: ${B_MAIN} ${FT_PRINTF} ${B_OBJ}
-#		${CC} ${FLAG} ${FT_PRINTF} ${B_OBJ} ${MAIN} -o ${B_NAME}
+${NAME}: ${FT_PRINTF} ${OBJ}
+		@${CC} ${FLAG} ${OBJ} ${FT_PRINTF} -o ${NAME}
 
 ${OBJ}: ${SRC}
 		@${CC} ${FLAG} -c ${SRC}
@@ -39,6 +40,7 @@ ${FT_PRINTF}:
 
 clean:
 	@rm -rf ${OBJ}
+	@rm -rf ${B_OBJ}
 	@make clean -C ft_printf
 
 fclean:clean
@@ -46,3 +48,5 @@ fclean:clean
 	@make fclean -C ft_printf
 
 re:fclean all
+
+.PHONY: all clean fclean re bonus

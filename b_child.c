@@ -1,34 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strnstr.c                                       :+:    :+:            */
+/*   b_child.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/05 18:21:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/13 08:40:56 by yizhang       ########   odam.nl         */
+/*   Created: 2023/03/12 16:23:17 by yizhang       #+#    #+#                 */
+/*   Updated: 2023/03/16 08:43:45 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, int len)
+void	b_child_process(char *argv, char **envp)
 {
-	char	*hay;
-	char	*n;
+	int		fd[2];
+	pid_t	id;
 
-	hay = (char *)haystack;
-	n = (char *)needle;
-	if (*n == 0)
-		return (hay);
-	while (*hay && len)
+	if (pipe(fd) == -1)
+		print_error("0", 0);
+	id = fork();
+	if (id == -1)
+		print_error("0", 0);
+	if (id == 0)
 	{
-		if (ft_strlen(needle) > len)
-			return (NULL);
-		if (ft_strncmp(hay, n, ft_strlen(needle)) == 0)
-			return (hay);
-		hay++;
-		len--;
+		close(fd[0]);
+		dup2(fd[1], 1);
+		run(argv, envp);
+		close(fd[1]);
 	}
-	return (NULL);
+	else
+	{
+		waitpid(id, NULL, 0);
+		close(fd[1]);
+		dup2(fd[0], 0);
+		close(fd[0]);
+	}
 }

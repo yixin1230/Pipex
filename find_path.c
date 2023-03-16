@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/09 14:39:36 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/16 09:05:09 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,23 @@
 
 void	run(char *argv, char **envp);
 char	*find_path(char *cmd, char **envp);
-void	print_error(void);
+void	print_error(char *str, int i);
+void	free_2dstr(char **str);
 
-void	print_error(void)
+void	print_error(char *str, int i)
 {
-	perror("Error");
+	if (i == 3)
+	{
+		ft_putstr_fd("error: bad arguments\n", 2);
+		exit(1);
+	}
+	ft_putstr_fd(strerror(errno), 2);
+	if (i)
+	{
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd("\n", 2);
+	}
 	exit(1);
 }
 
@@ -40,13 +52,13 @@ char	*find_path(char *cmd, char **envp)
 		path = ft_strjoin(path_undone, cmd);
 		free(path_undone);
 		if (access(path, F_OK) == 0)
+		{
+			free_2dstr(envp_paths);
 			return (path);
+		}
 		free(path);
 	}
-	i = -1;
-	while (envp_paths[++i])
-		free(envp_paths[i]);
-	free(envp_paths);
+	free_2dstr(envp_paths);
 	return (NULL);
 }
 
@@ -58,26 +70,34 @@ void	run(char *argv, char **envp)
 	int		i;
 
 	i = 0;
-
-	after_bin = ft_strrchr(argv, '/');
-	if (after_bin == NULL)
-		cmd = ft_split(argv, ' ');
-	else
-		cmd = ft_split(after_bin, ' ');
+	cmd = ft_split(argv, ' ');
 	if (access(argv, F_OK) == 0)
 		path = argv;
 	else
 		path = find_path(cmd[0], envp);
 	if (!path)
 	{
-		while (cmd[i])
-		{
-			free(cmd[i]);
-			i++;
-		}
-		free(cmd);
-		print_error();
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(cmd[0], 2);
+		ft_putstr_fd("\n", 2);
+		free_2dstr(cmd);
+		exit(1);
 	}
 	if (execve(path, cmd, envp) == -1)
-		print_error();
+		print_error("0", 0);
+	exit (0);
+}
+
+void	free_2dstr(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
 }
