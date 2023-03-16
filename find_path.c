@@ -66,6 +66,7 @@ void	run(char *argv, char **envp)
 {
 	char	**cmd;
 	char	*path;
+	char	*after_bin;
 	int		i;
 
 	i = 0;
