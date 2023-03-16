@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/16 10:54:24 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/16 11:25:45 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ void	print_error(char *str, int i)
 {
 	if (i == 3)
 	{
-		ft_putstr_fd("error: bad arguments\n", 2);
+		ft_putstr_fd("Error: bad arguments\n", 2);
 		exit(1);
 	}
-	ft_putstr_fd(strerror(errno), 2);
-	if (i)
-	{
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd("\n", 2);
-	}
+	if (i == 1)
+		ft_putstr_fd(strerror(errno), 2);
+	else if (i == 2)
+		ft_putstr_fd("Command not found", 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd("\n", 2);
 	exit(1);
 }
 
@@ -78,10 +78,10 @@ void	run(char *argv, char **envp)
 		path = find_path(cmd[0], envp);
 	if (!path)
 	{
-		ft_putstr_fd(strerror(errno), 2);
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(cmd[0], 2);
-		ft_putstr_fd("\n", 2);
+		if (ft_strchr(cmd[0], '/') != NULL)
+			print_error(cmd[0], 1);
+		else
+			print_error(cmd[0], 2);
 		free_2dstr(cmd);
 		exit(1);
 	}
