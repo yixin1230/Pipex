@@ -6,15 +6,11 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/16 10:20:03 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/20 16:22:31 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	here_doc(char *limiter);
-void	here_doc_child(int *fd, char *str, char *limiter);
-int		set_infile_outfile(char **argv, int argc, int *infile, int *outfile);
 
 void	here_doc(char *limiter)
 {
@@ -73,12 +69,11 @@ int	set_infile_outfile(char **argv, int argc, int *infile, int *outfile)
 	{
 		i = 2;
 		*infile = open(argv[1], O_RDONLY, 0777);
+		if (*infile == -1)
+			print_error(argv[1], 1);
 		*outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		if (*outfile == -1 || *infile == -1)
-		{
-			print_error(argv[1], 1);
 			print_error(argv[argc - 1], 1);
-		}
 		dup2(*infile, 0);
 	}
 	return (i);

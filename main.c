@@ -6,14 +6,11 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:37:21 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/16 10:50:29 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/20 16:14:35 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	child_process(int *fd, char **argv, char **envp);
-void	parent_process(int *fd, char **argv, char **envp);
 
 void	child_process(int *fd, char **argv, char **envp)
 {

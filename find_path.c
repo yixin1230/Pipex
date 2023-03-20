@@ -6,16 +6,11 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/16 11:25:45 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/20 16:50:20 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	run(char *argv, char **envp);
-char	*find_path(char *cmd, char **envp);
-void	print_error(char *str, int i);
-void	free_2dstr(char **str);
 
 void	print_error(char *str, int i)
 {
@@ -44,12 +39,12 @@ char	*find_path(char *cmd, char **envp)
 	i = 0;
 	while (ft_strnstr(envp[i], "PATH", 4) == NULL)
 		i++;
-	envp_paths = ft_split(envp[i] + 5, ':');
+	envp_paths = ft_p_split(envp[i] + 5, ':');
 	i = -1;
 	while (envp_paths[++i])
 	{
-		path_undone = ft_strjoin(envp_paths[i], "/");
-		path = ft_strjoin(path_undone, cmd);
+		path_undone = ft_p_strjoin(envp_paths[i], "/");
+		path = ft_p_strjoin(path_undone, cmd);
 		free(path_undone);
 		if (access(path, F_OK) == 0)
 		{
@@ -69,7 +64,7 @@ void	run(char *argv, char **envp)
 	int		i;
 
 	i = 0;
-	cmd = ft_split(argv, ' ');
+	cmd = ft_p_split(argv, ' ');
 	if (access(argv, F_OK) == 0)
 		path = argv;
 	else if (access(cmd[0], F_OK) == 0)
