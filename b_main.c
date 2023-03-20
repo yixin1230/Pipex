@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/20 16:22:31 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/20 18:50:18 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,18 @@ int	set_infile_outfile(char **argv, int argc, int *infile, int *outfile)
 	return (i);
 }
 
+void	leaks(void)
+{
+	system("leaks -q pipex");
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	int	i;
 	int	infile;
 	int	outfile;
 
+	atexit(leaks);
 	if (argc < 5)
 		print_error("0", 3);
 	i = set_infile_outfile(argv, argc, &infile, &outfile);

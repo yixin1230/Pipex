@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/20 16:50:20 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/20 18:49:35 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,22 @@ void	print_error(char *str, int i)
 	exit(1);
 }
 
+int	check_envp(char **envp)
+{
+	int		i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strnstr(envp[i], "PATH", 4) != NULL)
+			break ;
+		i++;
+	}
+	if (!envp[i])
+		return (-1);
+	return (i);
+}
+
 char	*find_path(char *cmd, char **envp)
 {
 	int		i;
@@ -36,9 +52,9 @@ char	*find_path(char *cmd, char **envp)
 	char	*path_undone;
 	char	**envp_paths;
 
-	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == NULL)
-		i++;
+	i = check_envp(envp);
+	if (i < 0)
+		return (NULL);
 	envp_paths = ft_p_split(envp[i] + 5, ':');
 	i = -1;
 	while (envp_paths[++i])
