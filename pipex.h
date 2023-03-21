@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:34:15 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/21 09:18:46 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/21 10:23:15 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ void	protect_dup2(int file, int file2);
 void	protect_close(int file);
 void	protect_write(int fd, char *buf, int count);
 void	protect_pipe(int fd[2]);
+void	b_last_child_process(char *argv, char **envp, int fd);
 
 #endif

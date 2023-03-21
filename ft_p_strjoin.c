@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/17 14:27:29 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/20 18:53:53 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/21 10:14:22 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,4 @@ char	*ft_p_strjoin(char const *s1, char const *s2)
 	}
 	s3[len] = '\0';
 	return (s3);
-}
-
-void	leaks(void)
-{
-	system("leaks -q pipex");
 }

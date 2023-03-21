@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:37:21 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/21 09:05:13 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/21 11:44:35 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,20 @@ void	child_process(int *fd, char **argv, char **envp)
 
 void	parent_process(int *fd, char **argv, char **envp)
 {
-	int	outfile;
+	int		outfile;
+	pid_t	id;
 
 	close(fd[1]);
 	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (outfile == -1)
 		print_error(argv[4], 1);
-	redirect_close_run(fd[0], outfile, argv[3], envp);
+	id = fork();
+	if (id == -1)
+		print_error("0", 0);
+	if (id == 0)
+		redirect_close_run(fd[0], outfile, argv[3], envp);
+	else
+		protect_waitpid(id, NULL, 0);
 }
 
 void	redirect_close_run(int in, int out, char *argv, char **envp)
@@ -41,6 +48,11 @@ void	redirect_close_run(int in, int out, char *argv, char **envp)
 	protect_close(in);
 	run(argv, envp);
 }
+
+/* static void	leaks(void)
+{
+	system("leaks -q pipex");
+} */
 
 int	main(int argc, char **argv, char **envp)
 {

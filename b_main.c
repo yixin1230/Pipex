@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/21 09:18:38 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/21 11:45:00 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	here_doc(char *limiter)
 		here_doc_child(fd, str, limiter);
 	else
 	{
-		protect_waitpid(id, NULL, 0);
 		protect_close(fd[1]);
+		protect_waitpid(id, NULL, 0);
 		protect_dup2(fd[0], 0);
 		protect_close(fd[0]);
 	}
@@ -98,8 +98,6 @@ int	main(int argc, char **argv, char **envp)
 		b_child_process(argv[i], envp);
 		i++;
 	}
-	protect_dup2(outfile, 1);
-	run(argv[argc - 2], envp);
-	protect_close(outfile);
+	b_last_child_process(argv[argc - 2], envp, outfile);
 	exit(0);
 }
