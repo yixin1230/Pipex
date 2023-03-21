@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/18 19:56:59 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/21 12:39:00 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/21 16:02:23 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static	size_t	count_str_len(const char *s, char c)
 
 	i = 0;
 	if (!s)
-		exit(1);
+		return (0);
 	while (*s == c)
 		s++;
 	while (*s != c && *s)
@@ -77,7 +77,7 @@ static char	**ft_cpy(const char *s, char **p, char c, size_t nb)
 		if (!p[j])
 		{
 			free_error(p, nb);
-			exit (1);
+			return (NULL);
 		}
 		i += len;
 		j++;
@@ -95,9 +95,7 @@ char	**ft_p_split(char const *s, char c)
 	nb = count_str(s, c);
 	p = ft_calloc(nb + 1, sizeof(char *));
 	if (!p)
-		exit(1);
+		return (NULL);
 	p = ft_cpy(s, p, c, nb);
-	if (!p)
-		exit(1);
 	return (p);
 }

@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:37:21 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/21 11:44:35 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/21 15:52:00 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ int	main(int argc, char **argv, char **envp)
 		print_error("0", 0);
 	if (id == 0)
 		child_process(fd, argv, envp);
+	parent_process(fd, argv, envp);
 	if (waitpid(id, NULL, 0) == -1)
 		print_error("0", 0);
-	parent_process(fd, argv, envp);
 	return (0);
 }

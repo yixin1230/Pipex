@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/21 13:04:31 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/21 15:53:20 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	here_doc(char *limiter)
 	else
 	{
 		protect_close(fd[1]);
-		protect_waitpid(id, NULL, 0);
 		protect_dup2(fd[0], 0);
 		protect_close(fd[0]);
+		protect_waitpid(id, NULL, 0);
 	}
 }
 
