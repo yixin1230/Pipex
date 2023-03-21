@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/21 15:53:20 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/21 17:09:53 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	here_doc(char *limiter)
 	protect_pipe(fd);
 	id = fork();
 	if (id < 0)
-		print_error("0", 0);
+		print_error(NULL, 1);
 	if (id == 0)
 		here_doc_child(fd, str, limiter);
 	else

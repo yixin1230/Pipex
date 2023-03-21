@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/12 16:23:17 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/21 15:52:52 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/21 17:03:00 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	b_child_process(char *argv, char **envp)
 	pid_t	id;
 
 	if (pipe(fd) == -1)
-		print_error("0", 0);
+		print_error(NULL, 1);
 	id = fork();
 	if (id == -1)
-		print_error("0", 0);
+		print_error(NULL, 1);
 	if (id == 0)
 	{
 		protect_close(fd[0]);
@@ -44,7 +44,7 @@ void	b_last_child_process(char *argv, char **envp, int fd)
 
 	id = fork();
 	if (id == -1)
-		print_error("0", 0);
+		print_error(NULL, 1);
 	if (id == 0)
 	{
 		protect_dup2(fd, 1);
