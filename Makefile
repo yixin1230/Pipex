@@ -6,7 +6,7 @@
 #    By: yizhang <zhaozicen951230@gmail.com>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/03/03 15:44:45 by yizhang       #+#    #+#                  #
-#    Updated: 2023/03/13 13:09:54 by yizhang       ########   odam.nl          #
+#    Updated: 2023/03/21 09:06:43 by yizhang       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ B_NAME = pipex
 CC = gcc
 FLAG = -Wall -Werror -Wextra
 FT_PRINTF = ft_printf/libftprintf.a
-SRC = find_path.c main.c
-B_SRC = find_path.c b_main.c b_child.c b_utils.c
+SRC = find_path.c main.c ft_p_split.c ft_p_strjoin.c protection.c
+B_SRC = find_path.c b_main.c b_child.c b_utils.c ft_p_split.c ft_p_strjoin.c protection.c
 OBJ = ${SRC:.c=.o}
 B_OBJ = ${B_SRC:.c=.o}
 

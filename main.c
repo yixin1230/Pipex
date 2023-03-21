@@ -6,14 +6,11 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:37:21 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/16 10:50:29 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/21 11:44:35 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	child_process(int *fd, char **argv, char **envp);
-void	parent_process(int *fd, char **argv, char **envp);
 
 void	child_process(int *fd, char **argv, char **envp)
 {
@@ -23,25 +20,39 @@ void	child_process(int *fd, char **argv, char **envp)
 	infile = open(argv[1], O_RDONLY);
 	if (infile == -1)
 		print_error(argv[1], 1);
-	dup2(fd[1], 1);
-	dup2(infile, 0);
-	close(fd[0]);
-	run(argv[2], envp);
+	redirect_close_run(infile, fd[1], argv[2], envp);
 }
 
 void	parent_process(int *fd, char **argv, char **envp)
 {
-	int	outfile;
+	int		outfile;
+	pid_t	id;
 
 	close(fd[1]);
 	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (outfile == -1)
 		print_error(argv[4], 1);
-	dup2(fd[0], 0);
-	dup2(outfile, 1);
-	close(fd[1]);
-	run(argv[3], envp);
+	id = fork();
+	if (id == -1)
+		print_error("0", 0);
+	if (id == 0)
+		redirect_close_run(fd[0], outfile, argv[3], envp);
+	else
+		protect_waitpid(id, NULL, 0);
 }
+
+void	redirect_close_run(int in, int out, char *argv, char **envp)
+{
+	protect_dup2(in, 0);
+	protect_dup2(out, 1);
+	protect_close(in);
+	run(argv, envp);
+}
+
+/* static void	leaks(void)
+{
+	system("leaks -q pipex");
+} */
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -50,13 +61,14 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 5)
 		print_error("0", 3);
-	pipe(fd);
+	protect_pipe(fd);
 	id = fork();
 	if (id == -1)
 		print_error("0", 0);
 	if (id == 0)
 		child_process(fd, argv, envp);
-	waitpid(id, NULL, 0);
+	if (waitpid(id, NULL, 0) == -1)
+		print_error("0", 0);
 	parent_process(fd, argv, envp);
 	return (0);
 }
