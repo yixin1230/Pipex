@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:34:15 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/20 18:50:09 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/21 09:09:01 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,10 @@ void	here_doc_child(int *fd, char *str, char *limiter);
 int		set_infile_outfile(char **argv, int argc, int *infile, int *outfile);
 char	**ft_p_split(char const *s, char c);
 char	*ft_p_strjoin(char const *s1, char const *s2);
+void	protect_waitpid(pid_t id, int status, int options);
+void	protect_dup2(int file, int file2);
+void	protect_close(int file);
+void	protect_write(int fd, char *buf, int count);
+void	protect_pipe(int fd[2]);
 
 #endif

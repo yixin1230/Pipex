@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/20 18:55:22 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/21 09:03:39 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	here_doc(char *limiter)
 	pid_t	id;
 
 	str = NULL;
-	if (pipe(fd) == -1)
-		print_error("0", 0);
+	protect_pipe(fd);
 	id = fork();
 	if (id < 0)
 		print_error("0", 0);
@@ -28,10 +27,10 @@ void	here_doc(char *limiter)
 		here_doc_child(fd, str, limiter);
 	else
 	{
-		waitpid(id, NULL, 0);
-		close(fd[1]);
-		dup2(fd[0], 0);
-		close(fd[0]);
+		protect_waitpid(id, NULL, 0);
+		protect_close(fd[1]);
+		protect_dup2(fd[0], 0);
+		protect_close(fd[0]);
 	}
 }
 
@@ -45,10 +44,10 @@ void	here_doc_child(int *fd, char *str, char *limiter)
 			&& ft_strlen(limiter) == (ft_strlen(str) - 1))
 		{
 			free(str);
-			close(fd[1]);
+			protect_close(fd[1]);
 			exit(0);
 		}
-		write(fd[1], str, ft_strlen(str));
+		protect_write(fd[1], str, ft_strlen(str));
 		free(str);
 	}
 }
@@ -74,8 +73,7 @@ int	set_infile_outfile(char **argv, int argc, int *infile, int *outfile)
 		*outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		if (*outfile == -1 || *infile == -1)
 			print_error(argv[argc - 1], 1);
-		if (dup2(*infile, 0) == -1)
-			print_error("0", 0);
+		protect_dup2(*infile, 0);
 	}
 	return (i);
 }
@@ -95,8 +93,8 @@ int	main(int argc, char **argv, char **envp)
 		b_child_process(argv[i], envp);
 		i++;
 	}
-	dup2(outfile, 1);
+	protect_dup2(outfile, 1);
 	run(argv[argc - 2], envp);
-	close(outfile);
+	protect_close(outfile);
 	exit(0);
 }

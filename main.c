@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:37:21 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/20 18:43:27 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/21 09:05:13 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,9 @@ void	parent_process(int *fd, char **argv, char **envp)
 
 void	redirect_close_run(int in, int out, char *argv, char **envp)
 {
-	if (dup2(in, 0) == -1)
-		print_error("0", 0);
-	if (dup2(out, 1) == -1)
-		print_error("0", 0);
-	if (close(in) == -1)
-		print_error("0", 0);
+	protect_dup2(in, 0);
+	protect_dup2(out, 1);
+	protect_close(in);
 	run(argv, envp);
 }
 
@@ -52,8 +49,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 5)
 		print_error("0", 3);
-	if (pipe(fd) == -1)
-		print_error("0", 0);
+	protect_pipe(fd);
 	id = fork();
 	if (id == -1)
 		print_error("0", 0);
