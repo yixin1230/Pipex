@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/21 09:03:39 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/21 09:18:38 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,11 @@ int	set_infile_outfile(char **argv, int argc, int *infile, int *outfile)
 		protect_dup2(*infile, 0);
 	}
 	return (i);
+}
+
+static void	leaks(void)
+{
+	system("leaks -q pipex");
 }
 
 int	main(int argc, char **argv, char **envp)

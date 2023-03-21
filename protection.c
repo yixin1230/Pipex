@@ -6,15 +6,15 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/20 19:19:44 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/21 09:09:57 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/21 09:15:46 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	protect_waitpid(pid_t id, int status, int options)
+void	protect_waitpid(pid_t id, int *status, int options)
 {
-	if (waitpid(id, &status, options) == -1)
+	if (waitpid(id, status, options) == -1)
 		print_error("0", 0);
 }
 
