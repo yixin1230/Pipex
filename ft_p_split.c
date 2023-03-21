@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/18 19:56:59 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/20 16:52:41 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/21 12:39:00 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,7 @@ char	**ft_p_split(char const *s, char c)
 	if (!p)
 		exit(1);
 	p = ft_cpy(s, p, c, nb);
+	if (!p)
+		exit(1);
 	return (p);
 }
