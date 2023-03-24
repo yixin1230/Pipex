@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/21 12:35:59 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/24 10:50:10 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,22 @@
 
 void	print_error(char *str, int i)
 {
-	if (i == 3)
+	if (i == 42)
 	{
-		ft_putstr_fd("Error: bad arguments\n", 2);
+		ft_putstr_fd(str, 2);
 		exit(1);
 	}
-	if (i == 1)
+	if (i == 1 || i == 126)
 		ft_putstr_fd(strerror(errno), 2);
-	else if (i == 2)
+	else if (i == 127)
 		ft_putstr_fd("Command not found", 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd("\n", 2);
-	exit(1);
+	if (i == 1 || i == 126 || i == 127)
+	{
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd("\n", 2);
+	}
+	exit(i);
 }
 
 int	check_envp(char **envp)
@@ -82,6 +85,8 @@ void	run(char *argv, char **envp)
 
 	i = 0;
 	cmd = ft_p_split(argv, ' ');
+	if (!*cmd)
+		print_error(argv, 127);
 	if (access(argv, F_OK) == 0)
 		path = argv;
 	else if (access(cmd[0], F_OK) == 0)
@@ -93,12 +98,12 @@ void	run(char *argv, char **envp)
 		if (ft_strchr(cmd[0], '/') != NULL)
 			print_error(cmd[0], 1);
 		else
-			print_error(cmd[0], 2);
+			print_error(cmd[0], 127);
 		free_2dstr(cmd);
 		exit(1);
 	}
 	if (execve(path, cmd, envp) == -1)
-		print_error("0", 0);
+		print_error(argv, 1);
 	exit (0);
 }
 

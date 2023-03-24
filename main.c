@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:37:21 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/21 11:44:35 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/24 09:49:18 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,33 @@ void	parent_process(int *fd, char **argv, char **envp)
 {
 	int		outfile;
 	pid_t	id;
+	int		status;
+	int		ret;
 
+	ret = 0;
 	close(fd[1]);
 	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (outfile == -1)
 		print_error(argv[4], 1);
 	id = fork();
 	if (id == -1)
-		print_error("0", 0);
+		print_error(NULL, 1);
 	if (id == 0)
 		redirect_close_run(fd[0], outfile, argv[3], envp);
 	else
-		protect_waitpid(id, NULL, 0);
+	{
+		waitpid(id, &status, 0);
+		WEXITSTATUS(status);
+	}
+	exit (WEXITSTATUS(status));
 }
 
 void	redirect_close_run(int in, int out, char *argv, char **envp)
 {
 	protect_dup2(in, 0);
 	protect_dup2(out, 1);
-	protect_close(in);
 	run(argv, envp);
+	protect_close(in);
 }
 
 /* static void	leaks(void)
@@ -58,17 +65,19 @@ int	main(int argc, char **argv, char **envp)
 {
 	pid_t	id;
 	int		fd[2];
+	
 
+	//atexit(leaks);
 	if (argc != 5)
-		print_error("0", 3);
+		print_error("Error: bad arguments\n", 42);
 	protect_pipe(fd);
 	id = fork();
 	if (id == -1)
-		print_error("0", 0);
+		print_error(NULL, 1);
 	if (id == 0)
 		child_process(fd, argv, envp);
-	if (waitpid(id, NULL, 0) == -1)
-		print_error("0", 0);
 	parent_process(fd, argv, envp);
+	if (waitpid(id, NULL, 0) == -1)
+		print_error(NULL, 1);
 	return (0);
 }
