@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/24 10:44:17 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/24 14:02:37 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,28 +52,38 @@ void	here_doc_child(int *fd, char *str, char *limiter)
 	}
 }
 
-int	set_infile_outfile(char **argv, int argc, int *infile, int *outfile)
+int	set_infile(char **argv)
 {
-	int		i;
+	int	i;
+	pid_t	id;
+	int	fd[2];
 
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
 		i = 3;
-		*outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_APPEND, 0777);
-		if (*outfile == -1)
-			print_error(argv[argc - 1], 1);
 		here_doc(argv[2]);
 	}
 	else
 	{
 		i = 2;
-		*infile = open(argv[1], O_RDONLY, 0777);
-		if (*infile == -1)
-			print_error(argv[1], 1);
-		*outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		if (*outfile == -1)
-			print_error(argv[argc - 1], 1);
-		protect_dup2(*infile, 0);
+		pipe(fd);
+		id = fork();
+		if (id == 0)
+		{
+			close(fd[1]);
+			fd[0] = open(argv[1], O_RDONLY, 0777);
+			if (fd[0] == -1)
+				print_error(argv[1], 1);
+			protect_dup2(fd[0], 0);
+			close(fd[0]);
+		}
+		else
+		{
+			close(fd[1]);
+			protect_dup2(fd[0], 0);
+			close(fd[0]);
+			protect_waitpid(id, NULL, 0);
+		}
 	}
 	return (i);
 }
@@ -87,17 +97,19 @@ int	set_infile_outfile(char **argv, int argc, int *infile, int *outfile)
 int	main(int argc, char **argv, char **envp)
 {
 	int	i;
-	int	infile;
 	int	outfile;
 
 	if (argc < 5)
 		print_error("Error: bad arguments\n", 42);
-	i = set_infile_outfile(argv, argc, &infile, &outfile);
+	i = set_infile(argv);
+	outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (outfile == -1)
+		print_error(argv[argc - 1], 1);
 	while (i < argc - 2)
 	{
 		b_child_process(argv[i], envp);
 		i++;
 	}
 	b_last_child_process(argv[argc - 2], envp, outfile);
-	exit(errno);
+	exit(0);
 }
