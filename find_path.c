@@ -6,31 +6,11 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/24 11:12:10 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/24 15:36:14 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	print_error(char *str, int i)
-{
-	if (i == 42)
-	{
-		ft_putstr_fd(str, 2);
-		exit(1);
-	}
-	if (i == 1 || i == 126)
-		ft_putstr_fd(strerror(errno), 2);
-	else if (i == 127)
-		ft_putstr_fd("Command not found", 2);
-	if (i == 1 || i == 126 || i == 127)
-	{
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd("\n", 2);
-	}
-	exit(i);
-}
 
 int	check_envp(char **envp)
 {
@@ -80,9 +60,7 @@ void	run(char *argv, char **envp)
 {
 	char	**cmd;
 	char	*path;
-	int		i;
 
-	i = 0;
 	cmd = ft_p_split(argv, ' ');
 	if (!*cmd)
 		print_error(argv, 127);

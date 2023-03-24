@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:34:15 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/24 14:02:55 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/24 14:54:44 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	here_doc(char *limiter);
 void	b_child_process(char *argv, char **envp);
 void	free_2dstr(char **str);
 void	here_doc_child(int *fd, char *str, char *limiter);
-int		set_infile(char **argv);
+void	set_infile(char **argv, int *i);
 char	**ft_p_split(char const *s, char c);
 char	*ft_p_strjoin(char const *s1, char const *s2);
 void	protect_waitpid(pid_t id, int *status, int options);
@@ -43,5 +43,6 @@ void	protect_close(int file);
 void	protect_write(int fd, char *buf, int count);
 void	protect_pipe(int fd[2]);
 void	b_last_child_process(char *argv, char **envp, int fd);
+void	redirect_close_wait(int close, int dup, int close2, pid_t wait);
 
 #endif
