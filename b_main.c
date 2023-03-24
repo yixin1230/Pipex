@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/24 15:30:46 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/24 16:08:10 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	here_doc_child(int *fd, char *str, char *limiter)
 	}
 }
 
-void	set_infile(char **argv, int *i)
+void	set_infile(char **argv, int argc, int *outfile, int *i)
 {
 	pid_t	id;
 	int		fd[2];
@@ -55,11 +55,17 @@ void	set_infile(char **argv, int *i)
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
 		*i = 3;
+		*outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_APPEND, 0777);
+		if (*outfile == -1)
+			print_error(argv[argc - 1], 1);
 		here_doc(argv[2]);
 	}
 	else
 	{
 		*i = 2;
+		*outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		if (*outfile == -1)
+			print_error(argv[argc - 1], 1);
 		protect_pipe(fd);
 		id = fork();
 		if (id < 0)
@@ -99,10 +105,9 @@ int	main(int argc, char **argv, char **envp)
 	i = 0;
 	if (argc < 5)
 		print_error("Error: bad arguments\n", 42);
-	set_infile(argv, &i);
-	outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (outfile == -1)
-		print_error(argv[argc - 1], 1);
+	if (ft_strncmp(argv[1], "here_doc", 8) != 0 && argc == 5)
+		m_pipex(argv, envp);
+	set_infile(argv, argc, &outfile, &i);
 	while (i < argc - 2)
 	{
 		b_child_process(argv[i], envp);

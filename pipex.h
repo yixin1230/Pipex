@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:34:15 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/24 14:54:44 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/24 16:05:28 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,14 @@ void	child_process(int *fd, char **argv, char **envp);
 void	parent_process(int *fd, char **argv, char **envp);
 void	redirect_close_run(int in, int out, char *argv, char **envp);
 int		check_envp(char **envp);
+void	m_pipex(char **argv, char **envp);
 
 char	*get_next_line(int fd);
 void	here_doc(char *limiter);
 void	b_child_process(char *argv, char **envp);
 void	free_2dstr(char **str);
 void	here_doc_child(int *fd, char *str, char *limiter);
-void	set_infile(char **argv, int *i);
+void	set_infile(char **argv, int argc, int *outfile, int *i);
 char	**ft_p_split(char const *s, char c);
 char	*ft_p_strjoin(char const *s1, char const *s2);
 void	protect_waitpid(pid_t id, int *status, int options);
