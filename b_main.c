@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/24 16:08:10 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/24 16:54:40 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	here_doc_child(int *fd, char *str, char *limiter)
 	}
 }
 
-void	set_infile(char **argv, int argc, int *outfile, int *i)
+void	set_infile(char **argv, int *i)
 {
 	pid_t	id;
 	int		fd[2];
@@ -55,17 +55,11 @@ void	set_infile(char **argv, int argc, int *outfile, int *i)
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
 		*i = 3;
-		*outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_APPEND, 0777);
-		if (*outfile == -1)
-			print_error(argv[argc - 1], 1);
 		here_doc(argv[2]);
 	}
 	else
 	{
 		*i = 2;
-		*outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		if (*outfile == -1)
-			print_error(argv[argc - 1], 1);
 		protect_pipe(fd);
 		id = fork();
 		if (id < 0)
@@ -87,7 +81,7 @@ void	redirect_close_wait(int close, int dup, int close2, pid_t wait)
 	protect_close(close);
 	protect_dup2(dup, 0);
 	protect_close(close2);
-	if (wait != 0)
+	if (wait == 0)
 		protect_waitpid(wait, NULL, 0);
 }
 
@@ -107,12 +101,21 @@ int	main(int argc, char **argv, char **envp)
 		print_error("Error: bad arguments\n", 42);
 	if (ft_strncmp(argv[1], "here_doc", 8) != 0 && argc == 5)
 		m_pipex(argv, envp);
-	set_infile(argv, argc, &outfile, &i);
-	while (i < argc - 2)
+	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
-		b_child_process(argv[i], envp);
-		i++;
+		outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_APPEND, 0777);
+		if (outfile == -1)
+			print_error(argv[argc - 1], 1);
 	}
+	else
+	{
+		outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		if (outfile == -1)
+			print_error(argv[argc - 1], 1);
+	}
+	set_infile(argv, &i);
+	while (i++ < argc - 2)
+		b_child_process(argv[i], envp);
 	b_last_child_process(argv[argc - 2], envp, outfile);
 	exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:34:15 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/24 16:05:28 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/24 16:31:36 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	here_doc(char *limiter);
 void	b_child_process(char *argv, char **envp);
 void	free_2dstr(char **str);
 void	here_doc_child(int *fd, char *str, char *limiter);
-void	set_infile(char **argv, int argc, int *outfile, int *i);
+void	set_infile(char **argv, int *i);
 char	**ft_p_split(char const *s, char c);
 char	*ft_p_strjoin(char const *s1, char const *s2);
 void	protect_waitpid(pid_t id, int *status, int options);
