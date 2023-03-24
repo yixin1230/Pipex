@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:37:21 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/21 19:28:23 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/24 09:49:18 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void	parent_process(int *fd, char **argv, char **envp)
 	else
 	{
 		waitpid(id, &status, 0);
-		ret = WIFEXITED(status);
+		WEXITSTATUS(status);
 	}
-	exit (ret);
+	exit (WEXITSTATUS(status));
 }
 
 void	redirect_close_run(int in, int out, char *argv, char **envp)
@@ -65,6 +65,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	pid_t	id;
 	int		fd[2];
+	
 
 	//atexit(leaks);
 	if (argc != 5)
@@ -76,7 +77,7 @@ int	main(int argc, char **argv, char **envp)
 	if (id == 0)
 		child_process(fd, argv, envp);
 	parent_process(fd, argv, envp);
-	/* if (waitpid(id, NULL, 0) == -1)
-		print_error(NULL, 1); */
+	if (waitpid(id, NULL, 0) == -1)
+		print_error(NULL, 1);
 	return (0);
 }

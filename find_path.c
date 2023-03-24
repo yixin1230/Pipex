@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/21 19:34:52 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/24 10:50:10 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	run(char *argv, char **envp)
 		if (ft_strchr(cmd[0], '/') != NULL)
 			print_error(cmd[0], 1);
 		else
-			print_error(cmd[0], 2);
+			print_error(cmd[0], 127);
 		free_2dstr(cmd);
 		exit(1);
 	}

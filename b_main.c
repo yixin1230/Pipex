@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/21 17:09:53 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/24 10:44:17 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	here_doc_child(int *fd, char *str, char *limiter)
 
 int	set_infile_outfile(char **argv, int argc, int *infile, int *outfile)
 {
-	int	i;
+	int		i;
 
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
@@ -71,7 +71,7 @@ int	set_infile_outfile(char **argv, int argc, int *infile, int *outfile)
 		if (*infile == -1)
 			print_error(argv[1], 1);
 		*outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		if (*outfile == -1 || *infile == -1)
+		if (*outfile == -1)
 			print_error(argv[argc - 1], 1);
 		protect_dup2(*infile, 0);
 	}
@@ -91,7 +91,7 @@ int	main(int argc, char **argv, char **envp)
 	int	outfile;
 
 	if (argc < 5)
-		print_error("0", 3);
+		print_error("Error: bad arguments\n", 42);
 	i = set_infile_outfile(argv, argc, &infile, &outfile);
 	while (i < argc - 2)
 	{
@@ -99,5 +99,5 @@ int	main(int argc, char **argv, char **envp)
 		i++;
 	}
 	b_last_child_process(argv[argc - 2], envp, outfile);
-	exit(0);
+	exit(errno);
 }
