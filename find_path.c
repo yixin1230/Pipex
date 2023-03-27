@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/24 19:56:32 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/27 14:05:14 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,17 +71,29 @@ void	run(char *argv, char **envp)
 	else
 		path = find_path(cmd[0], envp);
 	if (!path)
+		free_printerror(&cmd);
+	if (execve(path, cmd, envp) == -1)
 	{
-		if (ft_strchr(cmd[0], '/') != NULL)
-			print_error(cmd[0], 1);
-		else
-			print_error(cmd[0], 127);
-		free_2dstr(cmd);
+		if (access(path, X_OK) != 0)
+			print_error(argv, 127);
+		print_error(argv, 1);
+	}
+}
+
+void	free_printerror(char ***cmd)
+{
+	if (ft_strchr(*cmd[0], '/') != NULL)
+	{
+		print_error(*cmd[0], -1);
+		free_2dstr(*cmd);
 		exit(1);
 	}
-	if (execve(path, cmd, envp) == -1)
-		print_error(argv, 1);
-	exit(0);
+	else
+	{
+		print_error(*cmd[0], -127);
+		free_2dstr(*cmd);
+		exit(127);
+	}
 }
 
 void	free_2dstr(char **str)

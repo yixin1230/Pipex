@@ -6,7 +6,7 @@
 /*   By: yizhang <zhaozicen951230@gmail.com>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/03 15:34:15 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/27 12:51:39 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/27 13:49:21 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	parent_process(int *fd, char **argv, char **envp);
 void	redirect_close_run(int in, int out, char *argv, char **envp);
 int		check_envp(char **envp);
 void	m_pipex(char **argv, char **envp);
+void	free_printerror(char ***cmd);
 
 char	*get_next_line(int fd);
 void	here_doc(char *limiter);

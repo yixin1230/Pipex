@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/27 13:03:57 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/27 13:35:01 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,7 @@ void	set_infile(char **argv, char **envp)
 	pid_t	id;
 	int		infile;
 	int		fd[2];
-	
-	if (!envp)
-		return;
+
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 		here_doc(argv[2]);
 	else
