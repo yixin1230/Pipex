@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/09 09:11:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/24 16:54:40 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/27 10:10:48 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	here_doc(char *limiter)
 
 void	here_doc_child(int *fd, char *str, char *limiter)
 {
-	close(fd[0]);
+	protect_close(fd[0]);
 	while (1)
 	{
 		str = get_next_line(0);
@@ -50,39 +50,45 @@ void	here_doc_child(int *fd, char *str, char *limiter)
 void	set_infile(char **argv, int *i)
 {
 	pid_t	id;
+	int		infile;
 	int		fd[2];
 
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
-		*i = 3;
+		*i = 2;
 		here_doc(argv[2]);
 	}
 	else
 	{
-		*i = 2;
+		*i = 1;
 		protect_pipe(fd);
 		id = fork();
 		if (id < 0)
 			print_error(NULL, 1);
 		if (id == 0)
 		{
-			fd[0] = open(argv[1], O_RDONLY, 0777);
-			if (fd[0] == -1)
+			infile = open(argv[1], O_RDONLY);
+			if (infile == -1)
 				print_error(argv[1], 1);
-			redirect_close_wait(fd[1], fd[0], fd[0], 42);
+			dup2(infile, 0);
+			dup2(fd[1], 1);
 		}
 		else
-			redirect_close_wait(fd[1], fd[0], fd[0], id);
+		{
+			dup2(fd[0],0);
+			protect_close(fd[0]);
+			protect_close(fd[1]);
+			protect_waitpid(id, NULL, 0);
+		}
 	}
 }
 
-void	redirect_close_wait(int close, int dup, int close2, pid_t wait)
+void	redirect_close_wait(int close, int dup, int close2, pid_t id)
 {
 	protect_close(close);
 	protect_dup2(dup, 0);
 	protect_close(close2);
-	if (wait == 0)
-		protect_waitpid(wait, NULL, 0);
+	protect_waitpid(id, NULL, 0);
 }
 
 /* static void	leaks(void)
@@ -114,7 +120,7 @@ int	main(int argc, char **argv, char **envp)
 			print_error(argv[argc - 1], 1);
 	}
 	set_infile(argv, &i);
-	while (i++ < argc - 2)
+	while (++i < argc - 2)
 		b_child_process(argv[i], envp);
 	b_last_child_process(argv[argc - 2], envp, outfile);
 	exit(0);

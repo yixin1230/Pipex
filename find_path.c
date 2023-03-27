@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/07 10:28:16 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/24 15:36:14 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/24 19:56:32 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	run(char *argv, char **envp)
 	}
 	if (execve(path, cmd, envp) == -1)
 		print_error(argv, 1);
-	exit (0);
+	exit(0);
 }
 
 void	free_2dstr(char **str)

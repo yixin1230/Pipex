@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/24 15:43:00 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/24 16:48:33 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/24 17:14:17 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ void	parent_process(int *fd, char **argv, char **envp)
 	if (id == 0)
 		redirect_close_run(fd[0], outfile, argv[3], envp);
 	else
+	{
 		waitpid(id, &status, 0);
-	exit (WEXITSTATUS(status));
+		exit (WEXITSTATUS(status));
+	}	
 }
 
 void	redirect_close_run(int in, int out, char *argv, char **envp)

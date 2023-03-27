@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/12 16:23:17 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/03/24 15:48:58 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/03/24 18:54:24 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	b_child_process(char *argv, char **envp)
 		protect_close(fd[0]);
 		protect_dup2(fd[1], 1);
 		run(argv, envp);
-		protect_close(fd[1]);
 	}
 	else
 		redirect_close_wait(fd[1], fd[0], fd[0], id);
