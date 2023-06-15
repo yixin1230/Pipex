@@ -29,10 +29,7 @@ make
 
 # Compile the bonus part
 make bonus
-  
-# To execute
-./pipex <infile> <cmd1> <cmd2> <outfile>
-
+ 
 # To remove objects
 make clean
 
