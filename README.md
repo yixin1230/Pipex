@@ -7,12 +7,6 @@
 <p align="center">
 <p align="center">
 
-  <img alt="Github top language" src="https://img.shields.io/github/languages/top/yixin1230/Pipex?color=3de069">
-
-  <img alt="Github language count" src="https://img.shields.io/github/languages/count/yixin1230/Pipex?color=3de069">
-
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/yixin1230/Pipex?color=3de069">
-
 
 </p>
 
