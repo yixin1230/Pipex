@@ -1,6 +1,6 @@
 <h1 align="center">  Pipex </h1>
 
-<h2 align="center">Build a network of processes and connecting pipes - and have them act like a single process.
+<h2 align="center">Build a network of processes and connecting pipes
 
 </h2>
 <br>
@@ -19,8 +19,7 @@
 ## About
 
 A project made in accordance with the Pipex project which is part of the Codam Core Curriculum.
-This program takes the infile, outfile to redirect the STDIN (<), STDOUT (>) and 2 commands to pipe. To execute the mandatory program, type the command listed below. The arguments will be processed as same as < infile cmd1 | cmd2 > outfile on the shell.
-
+This program takes the infile, outfile to redirect the STDIN (<), STDOUT (>) and 2 commands to pipe. 
 ## Starting
 ```bash
 
